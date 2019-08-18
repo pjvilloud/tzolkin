@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row mt-2">
         <div class="col text-right">
-          <button class="btn btn-primary" v-on:click="addDay(-1)">&lt;</button>
+          <button class="btn btn-primary" v-on:click="addDay(-1)"><font-awesome-icon icon="chevron-left"/></button>
         </div>
         <div class="col">
           <datepicker
@@ -16,7 +16,12 @@
           </datepicker>
         </div>
         <div class="col">
-          <button class="btn btn-primary" v-on:click="addDay(1)">&gt;</button>
+          <button class="btn btn-primary" v-on:click="addDay(1)"><font-awesome-icon icon="chevron-right"/></button>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col text-center">
+          <h2 class="text-info">{{glyphe}} {{tonalite}}</h2>
         </div>
       </div>
     </div>

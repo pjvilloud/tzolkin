@@ -112,7 +112,7 @@
 <style scoped lang="scss">
   #oracleTable {
     text-align: center;
-    margin-top: 18vh;
+    margin-top: 12vh;
     margin-left: auto;
     margin-right: 1vw;
   }

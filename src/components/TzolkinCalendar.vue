@@ -264,7 +264,7 @@ export default {
 #tonalites {
   width: 35vw;
   left: 42vw;
-  top: 20vh;
+  top: 21vh;
 }
 
 .tzolkinCal {
