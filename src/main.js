@@ -10,13 +10,15 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faCodeBranch);
 library.add(faChevronLeft);
 library.add(faChevronRight);
+library.add(faExclamationTriangle);
 
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 window.$ = require("jquery");
 window.jQuery = require("jquery");

@@ -1,5 +1,6 @@
 <template>
-  <div id="calendarContainer">
+  <div id="calendarContainer" class="d-none d-xl-block">
+    <h2 class="text-center text-info">Kin {{kinNumber}}</h2>
     <img id="glyphes" class="gear" src="../assets/glyphes3dark.png" />
     <img id="tonalites" class="gear" src="../assets/tonalitesdark.png" />
   </div>
@@ -7,11 +8,15 @@
 
 <script>
 import moment from "moment";
-const defaultEasing = function (x, t, b, c, d) { return -c * ((t=t/d-1)*t*t*t - 1) + b };
-const constantEasing = function (x,t,b,c,d){ return c*(t/d)+b; };
+const defaultEasing = function(x, t, b, c, d) {
+  return -c * ((t = t / d - 1) * t * t * t - 1) + b;
+};
+const constantEasing = function(x, t, b, c, d) {
+  return c * (t / d) + b;
+};
 export default {
   name: "TzolkinCalendar",
-  props: ["date", "tonalite", "glyphe", "glyphes", "tonalites"],
+  props: ["date", "leapDay", "tonalite", "glyphe", "glyphes", "tonalites"],
   data: function() {
     return {
       refDate: moment("2019-07-13"),
@@ -70,7 +75,10 @@ export default {
             }
           });
           */
-    const diff = moment().diff(this.refDate, "days") % 260;
+    const diff =
+      (moment().diff(this.refDate, "days") % 260) -
+      this.correctLeapYears(this.refDate, moment());
+
     // var angles = {
     //   angleGlyphes: 0,
     //   angleTonalites: 0
@@ -81,6 +89,12 @@ export default {
   },
   methods: {
     setDay: function(newDate, oldDate) {
+      if (moment(newDate).month() === 1 && moment(newDate).date() === 29) {
+        this.leapDay = true;
+      } else {
+        this.leapDay = false;
+      }
+      this.$emit("update:leapDay", this.leapDay);
       var oldMomentDate = moment(oldDate)
         .hour(0)
         .minute(0)
@@ -104,7 +118,7 @@ export default {
       let toDate = moment.max(oldMomentDate, newMomentDate);
       var fromYear =
         fromDate.month() >= 2 ? fromDate.year() + 1 : fromDate.year();
-      var toYear = toDate.month() < 2 ? toDate.year() : toDate.year() - 1;
+      var toYear = toDate.month() < 2 ? toDate.year() - 1 : toDate.year();
       for (var i = fromYear; i <= toYear; i++) {
         if (moment([i]).isLeapYear()) {
           deltaLeapDays++;
@@ -257,14 +271,28 @@ export default {
   -webkit-animation-play-state: running;
   -webkit-animation-fill-mode: forwards;
 }
+
+@media (min-width: 1200px) {
+  #glyphes {
+    top: 14vh;
+  }
+}
+
+@media (min-width: 1600px) {
+  #glyphes {
+    top: 11vh;
+  }
+}
+
 #glyphes {
   width: 45vw;
-  top: 11vh;
+  z-index: -1;
 }
 #tonalites {
   width: 35vw;
   left: 42vw;
   top: 21vh;
+  z-index: -1;
 }
 
 .tzolkinCal {
