@@ -1,6 +1,6 @@
 <template>
   <div id="calendarContainer" class="d-none d-xl-block">
-    <h2 class="text-center text-info">Kin {{kinNumber}}</h2>
+    <h2 class="text-center text-info">Kin {{ $store.state.kinNumber }}</h2>
     <img id="glyphes" class="gear" src="../assets/glyphes3dark.png" />
     <img id="tonalites" class="gear" src="../assets/tonalitesdark.png" />
   </div>
@@ -16,13 +16,11 @@ const constantEasing = function(x, t, b, c, d) {
 };
 export default {
   name: "TzolkinCalendar",
-  props: ["date", "leapDay", "tonalite", "glyphe", "glyphes", "tonalites"],
   data: function() {
     return {
       refDate: moment("2019-07-13"),
       angleTonalites: 0,
-      angleGlyphes: 0,
-      kinNumber: 1
+      angleGlyphes: 0
       /*oracle: {
               glyphe: "Dragon Rouge",
               tonalite: "Magnétique",
@@ -37,6 +35,17 @@ export default {
     date: function(newDate, oldDate) {
       this.setDay(newDate, oldDate);
     }
+  },
+  created() {
+    this.unwatch = this.$store.watch(
+      (state) => state.date,
+      (newDate, oldDate) => {
+        this.setDay(newDate, oldDate);
+      }
+    );
+  },
+  beforeDestroy() {
+    this.unwatch();
   },
   mounted: function() {
     // var that = this;
@@ -89,12 +98,6 @@ export default {
   },
   methods: {
     setDay: function(newDate, oldDate) {
-      if (moment(newDate).month() === 1 && moment(newDate).date() === 29) {
-        this.leapDay = true;
-      } else {
-        this.leapDay = false;
-      }
-      this.$emit("update:leapDay", this.leapDay);
       var oldMomentDate = moment(oldDate)
         .hour(0)
         .minute(0)
@@ -140,14 +143,13 @@ export default {
       }, 1000);
     },
     incrementKinBy: function(number) {
-      var incrementedKin = (this.kinNumber + number) % 260;
+      var incrementedKin = (this.$store.state.kinNumber + number) % 260;
       incrementedKin =
         incrementedKin < 0 ? 260 + incrementedKin : incrementedKin;
-      this.kinNumber = incrementedKin === 0 ? 260 : incrementedKin;
-    },
-    updateOracle: function() {
-      this.$emit("update:glyphe", this.glyphes[(this.kinNumber - 1) % 20]);
-      this.$emit("update:tonalite", this.tonalites[(this.kinNumber - 1) % 13]);
+      this.$store.commit(
+        "updateKinNumber",
+        incrementedKin === 0 ? 260 : incrementedKin
+      );
     },
     raz: function() {
       let glyphesRAZClosest = 4680 * Math.ceil(this.angleGlyphes / 4680);
@@ -156,7 +158,7 @@ export default {
         angle: this.angleTonalites % 7200,
         duration: 2000,
         animateTo:
-          this.kinNumber > 130
+          this.$store.state.kinNumber > 130
             ? tonalitesRAZClosest
             : tonalitesRAZClosest > 0
             ? tonalitesRAZClosest - 7200
@@ -169,7 +171,7 @@ export default {
         angle: this.angleGlyphes % 4680,
         duration: 2000,
         animateTo:
-          this.kinNumber < 130
+          this.$store.state.kinNumber < 130
             ? glyphesRAZClosest
             : glyphesRAZClosest > 0
             ? glyphesRAZClosest + 4680
@@ -177,8 +179,7 @@ export default {
         easing: defaultEasing
       });
       this.angleGlyphes = 0;
-      this.kinNumber = 1;
-      this.updateOracle();
+      this.$store.commit("updateKinNumber", 1);
     },
     plus: function(ease, number = 1, noEase) {
       this.incrementKinBy(number);
@@ -201,7 +202,6 @@ export default {
         easing: noEase ? null : ease === true ? constantEasing : defaultEasing
       });
       this.angleGlyphes = angleGlyphe;
-      this.updateOracle();
       return {
         angleGlyphes: this.angleGlyphes,
         angleTonalites: this.angleTonalites

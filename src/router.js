@@ -1,7 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Count from "./components/Count.vue";
+import Count from "./views/Count.vue";
+import DreamSpell from "./views/DreamSpell.vue";
 
 Vue.use(Router);
 
@@ -16,6 +17,11 @@ export default new Router({
       path: "/count",
       name: "count",
       component: Count
+    },
+    {
+      path: "/dreamSpell",
+      name: "dreamSpell",
+      component: DreamSpell
     },
     {
       path: "/about",

@@ -11,6 +11,9 @@
           <b-nav-item>
             <router-link to="/count" class="nav-link">Numérotation maya</router-link>
           </b-nav-item>
+          <b-nav-item>
+            <router-link to="/dreamSpell" class="nav-link">Onde enchantée</router-link>
+          </b-nav-item>
         </b-navbar-nav>
           <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
