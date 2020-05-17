@@ -1,6 +1,6 @@
 <template>
   <div id="calendarContainer" class="d-none d-xl-block">
-    <h2 class="text-center text-info">Kin {{ $store.state.kinNumber }}</h2>
+    <h2 class="text-center text-info">Kin {{ $store.getters.kin }}</h2>
     <img id="glyphes" class="gear" src="../assets/glyphes3dark.png" />
     <img id="tonalites" class="gear" src="../assets/tonalitesdark.png" />
   </div>
@@ -21,26 +21,13 @@ export default {
       refDate: moment("2019-07-13"),
       angleTonalites: 0,
       angleGlyphes: 0
-      /*oracle: {
-              glyphe: "Dragon Rouge",
-              tonalite: "Magnétique",
-              guide: "Dragon Rouge",
-              antipode: "Singe Bleu",
-              occulte: "Soleil Jaune",
-              analogue: "Miroir Blanc"
-            },*/
     };
-  },
-  watch: {
-    date: function(newDate, oldDate) {
-      this.setDay(newDate, oldDate);
-    }
   },
   created() {
     this.unwatch = this.$store.watch(
-      (state) => state.date,
-      (newDate, oldDate) => {
-        this.setDay(newDate, oldDate);
+      (state, getters) => getters.kin,
+      (newKin, oldKin) => {
+        this.plus(false, newKin - oldKin);
       }
     );
   },
@@ -48,89 +35,9 @@ export default {
     this.unwatch();
   },
   mounted: function() {
-    // var that = this;
-    // var propellerGlyphes;
-    // var propellerTonalites;
-    // var initGlyphes = true;
-    /*propellerGlyphes = $('#glyphes').propeller({
-            inertia: 0.98,
-            speed: 0,
-            onRotate: function(){
-              $("#tonalites").rotate({
-                angle: this.angle * 20 / -13,
-                duration: 0
-              });
-            },
-            onDragStart: function(){
-              this.dragStartAngle = this.angle;
-            },
-            onStop: function(){
-
-            }
-          });
-          propellerTonalites = $('#tonalites').propeller({
-            inertia: 0.98,
-            speed: 0,
-            onRotate: function(){
-              $("#glyphes").rotate({
-                angle: this.angle * 13 / -20,
-                duration: 0,
-              });
-            },
-            onDragStart: function(){
-              this.dragStartAngle = this.angle;
-            },
-            onStop: function(){
-            }
-          });
-          */
-    const diff =
-      (moment().diff(this.refDate, "days") % 260) -
-      this.correctLeapYears(this.refDate, moment());
-
-    // var angles = {
-    //   angleGlyphes: 0,
-    //   angleTonalites: 0
-    // };
-    if (diff !== 0) {
-      this.angle = this.plus(false, diff, true);
-    }
+    this.angle = this.plus(false, this.$store.getters.kin - 1, true);
   },
   methods: {
-    setDay: function(newDate, oldDate) {
-      var oldMomentDate = moment(oldDate)
-        .hour(0)
-        .minute(0)
-        .second(0)
-        .millisecond(0);
-      var newMomentDate = moment(newDate)
-        .hour(0)
-        .minute(0)
-        .second(0)
-        .millisecond(0);
-      var diff =
-        (newMomentDate.diff(oldMomentDate, "days") % 260) -
-        this.correctLeapYears(oldMomentDate, newMomentDate);
-      if (diff !== 0) {
-        this.plus(false, diff);
-      }
-    },
-    correctLeapYears(oldMomentDate, newMomentDate) {
-      var deltaLeapDays = 0;
-      let fromDate = moment.min(oldMomentDate, newMomentDate);
-      let toDate = moment.max(oldMomentDate, newMomentDate);
-      var fromYear =
-        fromDate.month() >= 2 ? fromDate.year() + 1 : fromDate.year();
-      var toYear = toDate.month() < 2 ? toDate.year() - 1 : toDate.year();
-      for (var i = fromYear; i <= toYear; i++) {
-        if (moment([i]).isLeapYear()) {
-          deltaLeapDays++;
-        }
-      }
-      return oldMomentDate.isBefore(newMomentDate)
-        ? deltaLeapDays
-        : -deltaLeapDays;
-    },
     stopRotate: function() {
       clearInterval(this.rotate);
       $("#tonalites").stopRotate();

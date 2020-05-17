@@ -26,7 +26,6 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     date: Date.now(),
-    kinNumber: 1,
     glyphes: [
       "Dragon Rouge",
       "Vent Blanc",
@@ -71,14 +70,39 @@ const store = new Vuex.Store({
         moment(state.date).month() === 1 && moment(state.date).date() === 29
       );
     },
-    tonalite: state => {
-      return state.tonalites[(state.kinNumber - 1) % 13];
+    tonalite: (state, getters) => {
+      return state.tonalites[(getters.kin - 1) % 13];
     },
-    glyphe: state => {
-      return state.glyphes[(state.kinNumber - 1) % 20];
+    glyphe: (state, getters) => {
+      return state.glyphes[(getters.kin - 1) % 20];
     },
     nbTonalite: (state, getters) => {
       return state.tonalites.indexOf(getters.tonalite) + 1;
+    },
+    kin: state => {
+      let refDate = moment("2019-07-13");
+      let actualDate = moment(state.date);
+      let nbDaysBetweenRefDateAndDate = moment(actualDate).diff(refDate, 'days');
+
+      let deltaLeapDays = 0;
+      let fromDate = moment.min(actualDate, refDate);
+      let toDate = moment.max(actualDate, refDate);
+      let fromYear =
+          fromDate.month() >= 2 ? fromDate.year() + 1 : fromDate.year();
+      let toYear = toDate.month() < 2 ? toDate.year() - 1 : toDate.year();
+      for (let i = fromYear; i <= toYear; i++) {
+        if (moment([i]).isLeapYear()) {
+          deltaLeapDays++;
+        }
+      }
+      deltaLeapDays = actualDate.isBefore(refDate)
+          ? deltaLeapDays
+          : -deltaLeapDays;
+
+      let kinNumber = (1 + nbDaysBetweenRefDateAndDate + deltaLeapDays) % 260
+      kinNumber = kinNumber < 0 ? 260 + kinNumber : kinNumber;
+      kinNumber = kinNumber === 0 ? 260 : kinNumber
+      return kinNumber;
     }
   },
   mutations: {
@@ -95,6 +119,11 @@ const store = new Vuex.Store({
     },
     updateTonalite(state, tonalite) {
       state.tonalite = tonalite;
+    },
+    updateDate(state, amount) {
+      state.date = moment(state.date)
+        .add(amount, "days")
+        .toDate();
     }
   }
 });

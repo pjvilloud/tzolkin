@@ -201,7 +201,7 @@ export default {
   computed: {
     guide: function() {
       if (this.$store.getters.nbTonalite % 5 === 1) {
-        return this.$store.state.glyphe;
+        return this.$store.getters.glyphe;
       } else if (this.$store.getters.nbTonalite % 5 === 2) {
         return this.$store.state.glyphes[
           (this.$store.state.glyphes.indexOf(this.$store.getters.glyphe) + 12) %
@@ -234,7 +234,7 @@ export default {
     },
     antipode: function() {
       return this.$store.state.glyphes[
-        (this.$store.state.glyphes.indexOf(this.$store.state.glyphe) + 10) % 20
+        (this.$store.state.glyphes.indexOf(this.$store.getters.glyphe) + 10) % 20
       ];
     }
   }
