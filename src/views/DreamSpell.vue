@@ -34,9 +34,9 @@
       </div>
     </div>
     <div class="container-fluid">
-      <div class="row mb-3 border-bottom" v-for="(dreamspell, index) in dreamspells">
+      <div class="row border-bottom" v-for="(dreamspell, index) in dreamspells">
         <div
-          class="col-2 text-center"
+          class="col-2 pb-3 text-center"
           v-bind:class="{ 'bg-secondary': index === dreamspellIndex }"
         >
           <div>
