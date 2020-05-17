@@ -6,10 +6,11 @@
         <ul id="example-1" class="d-flex flex-column-reverse">
           <li v-for="(mayanNumber, index) in mayanNumbers">
             20<sup
-          ><span v-if="index >= 2">{{ index - 1 }}</span
-          ><span v-else>{{ index }}</span></sup
-          >
-            x <span v-if="index >= 2"> 18 x </span> <strong>{{ mayanNumber }}</strong>
+              ><span v-if="index >= 2">{{ index - 1 }}</span
+              ><span v-else>{{ index }}</span></sup
+            >
+            x <span v-if="index >= 2"> 18 x </span>
+            <strong>{{ mayanNumber }}</strong>
           </li>
         </ul>
       </div>
@@ -17,13 +18,7 @@
     <div class="col-sm-12 col-lg-4">
       <div class="d-flex flex-column-reverse">
         <div v-for="(mayanNumber, index) in mayanNumbers" class="mb-3">
-          <div class="d-flex justify-content-center">
-            <img v-if="mayanNumber === 0" src="../assets/icons/zero.png" />
-            <div v-for="n in mayanNumber % 5" class="circle"></div>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <div v-for="n in Math.floor(mayanNumber / 5)" class="rectangle"></div>
-          </div>
+          <MayanNumber :number="mayanNumber" />
         </div>
       </div>
     </div>
@@ -31,9 +26,11 @@
 </template>
 
 <script>
+import MayanNumber from "./MayanNumber";
 export default {
-  name: "MayanNumber",
+  name: "MayanNumberDetails",
   props: ["number"],
+  components: {MayanNumber},
   data: function() {
     return {
       mayanNumbers: []

@@ -237,16 +237,9 @@
         </div>
         <div class="col">
           <div class="mb-2">
-            <div class="d-flex justify-content-center">
-              <div class="circle"></div>
-            </div>
+            <MayanNumber :number="1"/>
           </div>
-          <div class="d-flex justify-content-center">
-            <div class="circle"></div>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <div class="rectangle"></div>
-          </div>
+          <MayanNumber :number="6"/>
         </div>
       </div>
       <div class="row">
@@ -271,22 +264,12 @@
         </div>
         <div class="col">
           <div class="mb-2">
-            <div class="d-flex justify-content-center">
-              <div class="circle"></div>
-            </div>
+            <MayanNumber :number="1"/>
           </div>
           <div class="mb-2">
-            <div class="d-flex justify-content-center">
-              <div class="circle"></div>
-              <div class="circle"></div>
-            </div>
+            <MayanNumber :number="2"/>
           </div>
-          <div class="d-flex justify-content-center">
-            <div class="circle"></div>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <div class="rectangle"></div>
-          </div>
+          <MayanNumber :number="6"/>
         </div>
       </div>
     </div>
@@ -304,16 +287,17 @@
                 class="mb-3"
         ></b-form-input>
       </div>
-      <MayanNumber :number="number"></MayanNumber>
+      <MayanNumberDetails :number="number"></MayanNumberDetails>
     </div>
   </div>
 </template>
 
 <script>
+    import MayanNumberDetails from "../components/MayanNumberDetails";
     import MayanNumber from "../components/MayanNumber";
     export default {
         name: "count",
-        components: {MayanNumber},
+        components: {MayanNumber, MayanNumberDetails},
         data: function(){
             return {
                 number: 0

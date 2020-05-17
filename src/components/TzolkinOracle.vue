@@ -10,7 +10,7 @@
           "
           v-b-popover.hover.top.html="
             'Cheminement en treize étapes permettant de répondre à la question posée par l’<strong>essence</strong>, en s’appuyant sur son <strong>pouvoir</strong>, son mode d’<strong>action</strong> et les différents alliés énergétiques.<ul><li>Question : ' +
-              questions[$store.getters.nbTonalite - 1] +
+              $store.state.questions[$store.getters.nbTonalite - 1] +
               '</li><li>Pouvoir : ' +
               pouvoirs[$store.getters.nbTonalite - 1] +
               '</li><li>Action : ' +
@@ -137,19 +137,6 @@ export default {
         "Nuit Bleue",
         "Vent Blanc",
         "Dragon Rouge"
-      ],
-      questions: [
-        "Quel est mon but ?",
-        "Quels son les obstacles ?",
-        "Quelles énergies dois-je activer ?",
-        "Comment décider du meilleur pour moi-même ?",
-        "Comment m'organiser pour l'équité ?",
-        "Comment m'adapter et me mettre en résonnance ?",
-        "Comment vivre ma vérité ?",
-        "Comment améliorer tout ce que je fais ?",
-        "Comment libérer et lâcher prise ?",
-        "Comment me dédier à tout ce qui vit ?",
-        "Comment être présent(e) à tout ce qui est ?"
       ],
       pouvoirs: [
         "unifie",

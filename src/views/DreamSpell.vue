@@ -32,16 +32,15 @@
           </datepicker>
         </div>
       </div>
+    </div>
+    <div class="container-fluid">
       <div class="row mb-3 border-bottom" v-for="(dreamspell, index) in dreamspells">
         <div
           class="col-2 text-center"
           v-bind:class="{ 'bg-secondary': index === dreamspellIndex }"
         >
           <div>
-            <img
-              class="tonaliteImg"
-              v-bind:src="require(`@/assets/icons/${index + 1}.png`)"
-            />
+            <MayanNumber :number="index + 1"/>
           </div>
           <div>
             <img
@@ -50,8 +49,11 @@
             />
           </div>
         </div>
-        <div class="col-10 d-flex align-items-center">
-          <h1>{{ dreamspell }} {{ $store.state.tonalites[index % 13] }}</h1>
+        <div class="col-5 d-flex align-items-center">
+          <h3>{{ $store.state.questions[index] }}</h3>
+        </div>
+        <div class="col-5 d-flex align-items-center">
+          <h2>{{ dreamspell }} {{ $store.state.tonalites[index] }}</h2>
         </div>
       </div>
     </div>
@@ -62,10 +64,12 @@
 import Datepicker from "vuejs-datepicker";
 import FR from "vuejs-datepicker/dist/locale/translations/fr";
 import moment from "moment";
+import MayanNumber from "../components/MayanNumber";
 
 export default {
   name: "dreamSpell",
   components: {
+      MayanNumber,
     Datepicker
   },
   data: function() {

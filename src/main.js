@@ -48,6 +48,21 @@ const store = new Vuex.Store({
       "Tempête Bleue",
       "Soleil Jaune"
     ],
+    questions: [
+      "Quel est mon but ?",
+      "Quels sont les obstacles ?",
+      "Quelles énergies dois-je activer ?",
+      "Quelle forme prend mon action ?",
+      "Comment décider du meilleur pour moi-même ?",
+      "Comment m'organiser pour l'équité ?",
+      "Comment m'adapter et me mettre en résonnance ?",
+      "Comment vivre ma vérité ?",
+      "Comment réaliser ma vision ?",
+      "Comment améliorer tout ce que je fais ?",
+      "Comment libérer et lâcher prise ?",
+      "Comment me dédier à tout ce qui vit ?",
+      "Comment être présent(e) à tout ce qui est ?"
+    ],
     tonalites: [
       "Magnétique",
       "Lunaire",
